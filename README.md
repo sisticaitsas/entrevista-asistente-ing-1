@@ -1,172 +1,362 @@
-# Prueba Técnica – Asistente ingenieria:
+# Prueba Técnica – Asistente de Ingeniería
 
-## 1. Objetivo
+## Parte 1. Reto de desarrollo
 
-Desarrollar una **plataforma web Full Stack (Frontend + Backend)** que permita captar los datos de un cliente a partir del acceso mediante un **código QR**.
+### 1. Contexto
 
-La prueba busca evaluar conocimientos de desarrollo, arquitectura básica, manejo de bases de datos, autenticación, experiencia de usuario, pruebas y despliegue mediante contenedores.
+Una empresa necesita mejorar la forma en que sus colaboradores reportan y hacen seguimiento a **incidencias asociadas a equipos, espacios o recursos internos**.
+
+Cada activo o ubicación podrá tener asociado un **código QR**. Al escanearlo, el usuario deberá acceder a una aplicación web desde la cual pueda registrar una incidencia.
+
+El equipo administrativo deberá contar con un panel que permita consultar, clasificar, gestionar y analizar los reportes recibidos.
+
+El objetivo de la prueba es evaluar capacidades de **desarrollo Full Stack, arquitectura, APIs, bases de datos, seguridad, UX/UI, pruebas, contenedores y organización del código**.
 
 ---
 
-## 2. Funcionalidades requeridas
+# 2. Flujo de usuario
 
-### A. Módulo de Usuario
-
-Al escanear el código QR, el usuario deberá acceder a una página con un formulario de registro.
+Al escanear un código QR, el usuario deberá acceder a una página de reporte.
 
 El formulario deberá solicitar como mínimo:
 
-* Nombre
-* Apellido
-* Correo corporativo
-* Teléfono
+- Nombre.
+- Apellido.
+- Correo corporativo.
+- Teléfono.
+- Tipo de incidencia.
+- Descripción de la incidencia.
 
-### Requisitos
+El código QR deberá permitir identificar automáticamente algún elemento dentro del sistema, por ejemplo:
 
-* Validar correctamente los campos.
-* Guardar la información en una base de datos.
-* Mostrar una confirmación cuando el registro se complete exitosamente.
-* Priorizar una experiencia sencilla, rápida y visualmente clara, especialmente desde dispositivos móviles.
-
----
-
-### B. Módulo Administrativo
-
-Crear un panel de administración protegido mediante autenticación.
-
-El administrador deberá poder:
-
-#### Gestión de registros
-
-* Visualizar los usuarios registrados.
-* Consultar la información de cada registro.
-* Clasificar cada contacto como:
-
-  * **Prospecto**
-  * **Cliente**
-
-#### Tablero Kanban
-
-Crear un tablero tipo **Kanban** que permita gestionar visualmente los registros.
-
-Como mínimo, deberá permitir mover los contactos entre diferentes estados o etapas.
+- Equipo.
+- Ubicación.
+- Recurso.
+- Área.
 
 Ejemplo:
 
-**Nuevo → Prospecto → Cliente**
+`QR → Equipo portátil #A023 → Formulario de reporte`
 
-#### Métricas
+### Requisitos
 
-El panel deberá presentar algunas métricas básicas, por ejemplo:
+El sistema deberá:
 
-* Total de registros.
-* Número de prospectos.
-* Número de clientes.
-* Registros realizados por fecha.
-* Conversión de prospectos a clientes.
-
-La forma de visualizar estas métricas queda a criterio del desarrollador.
-
----
-
-## 3. Requisitos técnicos
-
-El proyecto deberá cumplir con los siguientes requisitos:
-
-* Desarrollo **Frontend + Backend**.
-* Utilizar un framework de elección libre.
-* Persistencia de información en una **base de datos**.
-* Implementar autenticación mediante **JWT (JSON Web Token)**.
-* Proteger las rutas administrativas.
-* Implementar validaciones tanto en frontend como en backend.
-* El proyecto deberá estar **dockerizado**.
-* Incluir pruebas automatizadas.
-* Mantener una estructura de código clara y organizada.
-* Utilizar control de versiones con **Git**.
-* Publicar el proyecto en un repositorio.
+- Validar correctamente los campos.
+- Validar tanto desde frontend como desde backend.
+- Registrar la información en una base de datos.
+- Relacionar el reporte con el recurso identificado mediante el QR.
+- Generar una confirmación cuando el reporte se registre correctamente.
+- Mostrar mensajes adecuados cuando ocurra un error.
+- Priorizar el funcionamiento desde dispositivos móviles.
 
 ---
 
-## 4. UX/UI
+# 3. Panel administrativo
 
-La experiencia de usuario tendrá un peso importante dentro de la evaluación.
+El sistema deberá incluir un panel administrativo protegido mediante autenticación.
 
-Se espera:
+El administrador deberá poder iniciar sesión y acceder únicamente a las funcionalidades autorizadas.
 
-* Diseño responsive.
-* Buena visualización en dispositivos móviles.
-* Navegación intuitiva.
-* Formularios claros.
-* Jerarquía visual adecuada.
-* Estados de carga, éxito y error.
-* Panel administrativo fácil de entender.
-* Consistencia visual entre las diferentes secciones.
+## Gestión de incidencias
 
-No se exige utilizar una librería de componentes específica.
+Desde el panel deberá ser posible:
+
+- Visualizar los reportes registrados.
+- Consultar el detalle de cada reporte.
+- Identificar el activo o recurso relacionado.
+- Consultar información del usuario que realizó el reporte.
+- Modificar el estado de una incidencia.
+- Clasificar las incidencias.
+
+Como mínimo deberá existir una clasificación relacionada con prioridad:
+
+- Baja.
+- Media.
+- Alta.
+
+El candidato puede agregar otras clasificaciones si considera que aportan valor.
 
 ---
 
-## 5. Entregables
+# 4. Gestión mediante Kanban
+
+Las incidencias deberán poder gestionarse utilizando un tablero visual tipo **Kanban**.
+
+Como mínimo deberá incluir las siguientes etapas:
+
+**Reportado → En revisión → En proceso → Resuelto**
+
+El sistema deberá permitir cambiar una incidencia de estado.
+
+Se valorará positivamente que el cambio pueda realizarse mediante **Drag & Drop**, aunque no será obligatorio.
+
+Cada tarjeta deberá mostrar información suficiente para identificar rápidamente la incidencia.
+
+Por ejemplo:
+
+- Código.
+- Tipo.
+- Prioridad.
+- Fecha.
+- Recurso asociado.
+
+---
+
+# 5. Dashboard y métricas
+
+El panel administrativo deberá presentar métricas relacionadas con la operación.
+
+Como mínimo deberá mostrar:
+
+- Total de incidencias.
+- Incidencias abiertas.
+- Incidencias resueltas.
+- Incidencias agrupadas por prioridad.
+- Reportes registrados por fecha.
+- Porcentaje de incidencias resueltas.
+
+El candidato decidirá cómo representar la información.
+
+Podrá utilizar:
+
+- Tarjetas.
+- Tablas.
+- Barras.
+- Gráficas.
+- Indicadores.
+
+Se evaluará principalmente que la información sea **comprensible y útil**, no la complejidad de las visualizaciones.
+
+---
+
+# 6. Requisitos técnicos
+
+La solución deberá cumplir como mínimo con:
+
+- Desarrollo **Frontend + Backend**.
+- Framework de libre elección.
+- API para comunicación entre frontend y backend.
+- Persistencia en una **base de datos**.
+- Autenticación mediante **JWT (JSON Web Token)**.
+- Protección de las rutas administrativas.
+- Validación de información en frontend y backend.
+- Manejo adecuado de errores.
+- Uso de variables de entorno para información de configuración.
+- Proyecto **dockerizado**.
+- Pruebas automatizadas.
+- Código estructurado y organizado.
+- Control de versiones utilizando **Git**.
+- Repositorio donde pueda revisarse el historial del proyecto.
+
+No se evaluará negativamente la elección de una tecnología particular siempre que el candidato pueda justificarla.
+
+---
+
+# 7. UX/UI
+
+La experiencia de usuario constituye una parte importante de la evaluación.
+
+Se espera como mínimo:
+
+- Diseño responsive.
+- Correcta visualización desde dispositivos móviles.
+- Navegación intuitiva.
+- Formularios claros.
+- Buena jerarquía visual.
+- Estados de carga.
+- Estados de error.
+- Estados de éxito.
+- Feedback visual después de las acciones.
+- Panel administrativo fácil de interpretar.
+- Consistencia visual.
+
+No se exige ninguna librería específica de componentes.
+
+---
+
+# 8. Entregables
 
 El candidato deberá entregar:
 
-1. **URL del repositorio** con el código fuente.
+1. **URL del repositorio** que contenga el código fuente.
+
 2. Archivo `README.md` con:
+   - Descripción del proyecto.
+   - Arquitectura general utilizada.
+   - Tecnologías seleccionadas.
+   - Instrucciones de instalación.
+   - Instrucciones de ejecución.
+   - Variables de entorno necesarias.
+   - Instrucciones para ejecutar las pruebas.
+   - Instrucciones para levantar el proyecto con Docker.
 
-   * Descripción del proyecto.
-   * Tecnologías utilizadas.
-   * Instrucciones de instalación.
-   * Instrucciones para ejecutar el proyecto.
-   * Instrucciones para ejecutar las pruebas.
-   * Variables de entorno necesarias.
-3. Archivo o configuración de **Docker** para levantar el proyecto.
-4. Código QR o URL que permita probar el flujo de registro.
-5. Credenciales de prueba para ingresar al panel administrativo.
+3. Configuración necesaria de **Docker**.
 
----
+4. Código QR o URL que permita probar el flujo de creación de incidencias.
 
-## 6. Criterios de evaluación
+5. Credenciales de prueba para acceder al panel administrativo.
 
-| Criterio                                       | Peso |
-| ---------------------------------------------- | ---: |
-| Funcionamiento general                         |  25% |
-| Calidad y organización del código              |  20% |
-| UX/UI                                          |  15% |
-| Backend, API y base de datos                   |  15% |
-| Seguridad y autenticación JWT                  |  10% |
-| Pruebas                                        |  10% |
-| Docker, documentación y facilidad de ejecución |   5% |
+6. Breve explicación de las principales decisiones técnicas tomadas durante el desarrollo.
 
 ---
 
-## 7. Aspectos adicionales
+# 9. Criterios de evaluación
 
-Se valorarán positivamente, aunque **no son obligatorios**:
-
-* Buen manejo de errores.
-* Documentación de la API.
-* Uso correcto de variables de entorno.
-* Migraciones de base de datos.
-* Filtros o búsqueda de registros.
-* Paginación.
-* Drag & Drop en el tablero Kanban.
-* Gráficas para las métricas.
-* Buenas prácticas de seguridad.
-* Despliegue de una versión funcional en línea.
+| Criterio | Peso |
+|---|---:|
+| Funcionamiento general | 25% |
+| Calidad y organización del código | 20% |
+| UX/UI | 15% |
+| Backend, API y base de datos | 15% |
+| Seguridad y autenticación JWT | 10% |
+| Pruebas automatizadas | 10% |
+| Docker, documentación y facilidad de ejecución | 5% |
+| **Total** | **100%** |
 
 ---
 
-## 8. Consideraciones
+# 10. Aspectos adicionales
 
-La tecnología utilizada queda a elección del candidato.
+Se considerarán positivamente, pero **no son obligatorios**:
 
-No buscamos únicamente que la aplicación funcione. Se evaluará también **cómo está pensada, estructurada y construida**.
+- Documentación de la API.
+- Swagger / OpenAPI.
+- Migraciones de base de datos.
+- Filtros.
+- Búsqueda.
+- Paginación.
+- Drag & Drop en Kanban.
+- Gráficas.
+- Logs.
+- Buen manejo de excepciones.
+- Buenas prácticas de seguridad.
+- Uso correcto de variables de entorno.
+- Despliegue de una versión funcional.
+- Arquitectura preparada para crecimiento.
+- Pruebas de integración además de pruebas unitarias.
 
-Se priorizarán:
+Estos elementos no deberán utilizarse para compensar funcionalidades obligatorias que no hayan sido implementadas.
 
-**Claridad → Funcionalidad → UX/UI → Calidad del código → Buenas prácticas.**
+---
 
+# Parte 2. Evaluación técnica de ciberseguridad
 
-*****2 parte:*******
+Responder de manera breve y técnica las siguientes preguntas.
 
-Peguntas tecnicas: ciberseguridad
+## 1. Autenticación y JWT
+
+Una aplicación utiliza JWT para proteger el panel administrativo.
+
+Explique:
+
+- ¿Qué información debería y no debería almacenarse dentro de un JWT?
+- ¿Dónde almacenaría el token en una aplicación web y qué riesgos existen?
+- ¿Cómo manejaría la expiración del token?
+- ¿Qué diferencia existe entre un `access token` y un `refresh token`?
+
+---
+
+## 2. Contraseñas
+
+El sistema requiere almacenar las credenciales de los administradores.
+
+Explique:
+
+- ¿Cómo almacenaría una contraseña correctamente?
+- ¿Por qué no debería almacenarse utilizando cifrado reversible?
+- Mencione al menos un algoritmo apropiado para almacenar contraseñas.
+
+---
+
+## 3. SQL Injection
+
+Considere una API que recibe un parámetro ingresado por un usuario y lo utiliza para consultar una base de datos.
+
+Explique:
+
+- ¿Qué es una inyección SQL?
+- ¿Cómo podría producirse?
+- ¿Qué mecanismos utilizaría para prevenirla?
+
+---
+
+## 4. XSS
+
+Explique qué es un ataque **Cross-Site Scripting (XSS)** y mencione medidas para reducir el riesgo dentro de una aplicación web.
+
+---
+
+## 5. Control de acceso
+
+Suponga que existe el siguiente endpoint:
+
+`GET /api/incidents/125`
+
+El usuario autenticado modifica manualmente la URL y consulta:
+
+`GET /api/incidents/126`
+
+La incidencia `126` pertenece a otro usuario al que no debería tener acceso.
+
+Responda:
+
+- ¿Qué vulnerabilidad podría existir?
+- ¿Dónde debería realizarse la validación?
+- ¿Cómo la solucionaría?
+
+---
+
+## 6. Variables de entorno
+
+Explique por qué elementos como los siguientes no deberían almacenarse directamente dentro del código fuente:
+
+- Contraseñas.
+- Secretos JWT.
+- API Keys.
+- Credenciales de bases de datos.
+
+Indique una forma adecuada de administrarlos.
+
+---
+
+## 7. Docker
+
+Suponga que encuentra lo siguiente dentro de un `Dockerfile`:
+
+`ENV DATABASE_PASSWORD=MiPasswordProduccion123`
+
+Explique:
+
+- ¿Cuál es el problema?
+- ¿Qué riesgo representa?
+- ¿Cómo debería manejarse correctamente?
+
+---
+
+## 8. Caso práctico
+
+Después de desplegar la aplicación, comienza a recibir cientos de solicitudes automáticas al formulario público generado desde el QR.
+
+Indique qué controles implementaría para reducir:
+
+- Automatización maliciosa.
+- Spam.
+- Abuso de la API.
+- Saturación del servicio.
+
+Justifique brevemente las decisiones.
+
+---
+
+# Consideraciones finales
+
+La tecnología queda a elección del candidato.
+
+No buscamos únicamente verificar que una aplicación funcione.
+
+Se evaluará también la capacidad para:
+
+**Analizar → Diseñar → Implementar → Validar → Proteger → Documentar**
+
+Se tendrá en cuenta especialmente la capacidad del candidato para justificar sus decisiones técnicas y construir una solución comprensible, mantenible y ejecutable.
